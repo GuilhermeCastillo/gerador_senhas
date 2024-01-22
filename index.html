@@ -30,9 +30,17 @@
             <input type="text" name="password" , id="password" />
           </div>
           <div class="actions">
-            <button id="copy2">C</button>
-            <button id="renew">R</button>
+            <button id="copy-1">
+              <img src="copy.svg" alt="" width="42" />
+            </button>
+            <button id="renew">
+              <img src="renew.svg" alt="" width="42" />
+            </button>
           </div>
+        </div>
+
+        <div class="security-indicator">
+          <div id="security-indicator-bar" class="bar safe" style="width: 90%"></div>
         </div>
       </section>
 
@@ -48,7 +56,7 @@
         max="64"
       />
 
-      <button id="copy">Copiar Senha</button>
+      <button id="copy-2">Copiar Senha</button>
     </main>
 
     <script>
@@ -79,8 +87,8 @@
         generatePassword();
       });
 
-      const copyButtonE1 = document.querySelector("#copy");
-      copyButtonE1.addEventListener("click", copy);
+      document.querySelector("#copy-1").addEventListener("click", copy);
+      document.querySelector("#copy-2").addEventListener("click", copy);
     </script>
   </body>
 </html>
