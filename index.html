@@ -40,11 +40,7 @@
         </div>
 
         <div class="security-indicator">
-          <div
-            id="security-indicator-bar"
-            class="bar safe"
-            style="width: 90%"
-          ></div>
+          <div id="security-indicator-bar" class="bar safe"></div>
         </div>
       </section>
 
@@ -97,10 +93,31 @@
     <script>
       let passwordLength = 16;
       const inputE1 = document.querySelector("#password");
+      const upperCaseCheckE1 = document.querySelector("#uppercase-check");
+      const numberCheckE1 = document.querySelector("#number-check");
+      const symbolCheckE1 = document.querySelector("#symbol-check");
+      const securityIndicatorBarE1 = document.querySelector(
+        "#security-indicator-bar"
+      );
 
       function generatePassword() {
-        const chars =
-          "abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ123456789?!@&*()[]";
+        let chars = "abcdefghjkmnpqrstuvwxyz";
+
+        const upperCaseChars = "ABCDEFGHJKLMNPQRSTUVWXYZ";
+        const numberChars = "123456789";
+        const symbolChars = "?!@&*()[]";
+
+        if (upperCaseCheckE1.checked) {
+          chars += upperCaseChars;
+        }
+
+        if (numberCheckE1.checked) {
+          chars += numberChars;
+        }
+
+        if (symbolCheckE1.checked) {
+          chars += symbolChars;
+        }
 
         let password = "";
 
@@ -110,6 +127,39 @@
         }
 
         inputE1.value = password;
+        calculateQuality();
+      }
+
+      function calculateQuality() {
+        const percent = Math.round(
+          (passwordLength / 64) * 25 +
+            (upperCaseCheckE1.checked ? 15 : 0) +
+            (numberCheckE1.checked ? 25 : 0) +
+            (symbolCheckE1.checked ? 35 : 0)
+        );
+
+        console.log(percent);
+
+        securityIndicatorBarE1.style.width = `${percent}%`;
+
+        if (percent > 69) {
+          // safe
+          securityIndicatorBarE1.classList.remove('critical')
+          securityIndicatorBarE1.classList.remove('warning')
+          securityIndicatorBarE1.classList.add('safe')
+        }
+        else if (percent > 50) {
+          // warning
+          securityIndicatorBarE1.classList.remove('critical')
+          securityIndicatorBarE1.classList.remove('safe')
+          securityIndicatorBarE1.classList.add('warning')
+        } else {
+          //critical
+          securityIndicatorBarE1.classList.remove('warning')
+          securityIndicatorBarE1.classList.remove('safe')
+          securityIndicatorBarE1.classList.add('critical')
+        }
+
       }
 
       function copy() {
@@ -119,11 +169,20 @@
       const passwordLengthE1 = document.querySelector("#password-length");
 
       passwordLengthE1.addEventListener("input", function () {
+        passwordLength = passwordLengthE1.value;
+        document.querySelector("#password-length-text").innerText =
+          passwordLength;
         generatePassword();
       });
 
+      upperCaseCheckE1.addEventListener("click", generatePassword);
+      numberCheckE1.addEventListener("click", generatePassword);
+      symbolCheckE1.addEventListener("click", generatePassword);
+
       document.querySelector("#copy-1").addEventListener("click", copy);
       document.querySelector("#copy-2").addEventListener("click", copy);
+
+      generatePassword();
     </script>
   </body>
 </html>
