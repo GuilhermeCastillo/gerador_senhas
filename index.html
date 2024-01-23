@@ -128,6 +128,7 @@
 
         inputE1.value = password;
         calculateQuality();
+        calculateFontSize();
       }
 
       function calculateQuality() {
@@ -144,22 +145,46 @@
 
         if (percent > 69) {
           // safe
-          securityIndicatorBarE1.classList.remove('critical')
-          securityIndicatorBarE1.classList.remove('warning')
-          securityIndicatorBarE1.classList.add('safe')
-        }
-        else if (percent > 50) {
+          securityIndicatorBarE1.classList.remove("critical");
+          securityIndicatorBarE1.classList.remove("warning");
+          securityIndicatorBarE1.classList.add("safe");
+        } else if (percent > 50) {
           // warning
-          securityIndicatorBarE1.classList.remove('critical')
-          securityIndicatorBarE1.classList.remove('safe')
-          securityIndicatorBarE1.classList.add('warning')
+          securityIndicatorBarE1.classList.remove("critical");
+          securityIndicatorBarE1.classList.remove("safe");
+          securityIndicatorBarE1.classList.add("warning");
         } else {
           //critical
-          securityIndicatorBarE1.classList.remove('warning')
-          securityIndicatorBarE1.classList.remove('safe')
-          securityIndicatorBarE1.classList.add('critical')
+          securityIndicatorBarE1.classList.remove("warning");
+          securityIndicatorBarE1.classList.remove("safe");
+          securityIndicatorBarE1.classList.add("critical");
         }
 
+        if (percent >= 100) {
+          securityIndicatorBarE1.classList.add("completed");
+        } else {
+          securityIndicatorBarE1.classList.remove("completed");
+        }
+      }
+
+      function calculateFontSize() {
+        if (passwordLength > 45) {
+          inputE1.classList.remove("font-sm");
+          inputE1.classList.remove("font-xs");
+          inputE1.classList.add("font-xxs");
+        } else if (passwordLength > 32) {
+          inputE1.classList.remove("font-sm");
+          inputE1.classList.remove("font-xxs");
+          inputE1.classList.add("font-xs");
+        } else if (passwordLength > 22) {
+          inputE1.classList.remove("font-xxs");
+          inputE1.classList.remove("font-xs");
+          inputE1.classList.add("font-sm");
+        } else {
+          inputE1.classList.remove("font-xxs");
+          inputE1.classList.remove("font-xs");
+          inputE1.classList.remove("font-sm");
+        }
       }
 
       function copy() {
@@ -181,7 +206,9 @@
 
       document.querySelector("#copy-1").addEventListener("click", copy);
       document.querySelector("#copy-2").addEventListener("click", copy);
-
+      document
+        .querySelector("#renew")
+        .addEventListener("click", generatePassword);
       generatePassword();
     </script>
   </body>
